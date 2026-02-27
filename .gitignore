@@ -1,0 +1,4 @@
+# Ignore model files if you ever copy them here
+*.gguf
+*.bin
+/data
