@@ -1,25 +1,23 @@
-# Qwen (GGUF) OpenAI-compatible server via llama.cpp (llama-server)
-# Deploy as a separate Railway service with a Volume mounted to /data
-# Put your model file as /data/Qwen.gguf
-
 FROM ubuntu:22.04
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates git build-essential cmake curl \
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    git build-essential cmake curl ca-certificates python3 python3-pip \
  && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /opt
-RUN git clone --depth 1 https://github.com/ggerganov/llama.cpp.git
-
+# ---------- Установка llama.cpp ----------
+RUN git clone https://github.com/ggerganov/llama.cpp /opt/llama.cpp
 WORKDIR /opt/llama.cpp
-# Build llama-server
-RUN cmake -S . -B build -DLLAMA_BUILD_SERVER=ON -DLLAMA_BUILD_TESTS=OFF -DLLAMA_BUILD_EXAMPLES=OFF -DCMAKE_BUILD_TYPE=Release \
- && cmake --build build -j
+RUN cmake -B build && cmake --build build -j
 
-EXPOSE 8081
+# ---------- Копируем проект ----------
+WORKDIR /app
+COPY . /app
 
-# You can override MODEL_PATH / PORT via Railway Variables
-ENV MODEL_PATH=/data/Qwen.gguf
-ENV PORT=8081
+# зависимости бота
+RUN if [ -f requirements.txt ]; then pip3 install --no-cache-dir -r requirements.txt; fi
 
-CMD ["/bin/bash","-lc","./build/bin/llama-server -m ${MODEL_PATH} --host 0.0.0.0 --port ${PORT}"]
+# запуск
+RUN chmod +x /app/start.sh
+CMD ["/app/start.sh"]
