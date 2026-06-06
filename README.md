@@ -1,4 +1,8 @@
+# ASYA Assistant (Backend)
 # Qwen (GGUF) server for Railway via llama.cpp
+
+> **[СКАЧАТЬ ПРИЛОЖЕНИЕ (Desktop App)](https://github.com/tinyhumansai/openhuman/releases/latest)** — установите это на свой компьютер, чтобы запустить АСЮ.
+
 
 This is a standalone **Qwen API** server (OpenAI-compatible) designed for deployment on Railway using `llama.cpp`. It allows you to run Qwen language models locally (in GGUF format) and access them via a standard API.
 

@@ -12,7 +12,10 @@
 
 ## 2. Установка Десктоп-оболочки (OpenHuman)
 OpenHuman обеспечит АСЕ графический интерфейс, доступ к файлам и память.
-- Скачайте и установите OpenHuman: [tinyhumans.ai/openhuman](https://tinyhumans.ai/openhuman)
+- **Скачайте установщик**: [Последний релиз OpenHuman](https://github.com/tinyhumansai/openhuman/releases/latest)
+  - Для Windows: `.msi` или `.exe`
+  - Для macOS: `.dmg`
+  - Для Linux: `.deb` или `AppImage`
 - В настройках OpenHuman выберите **Custom Model** и укажите адрес вашего Railway-сервиса:
   - Base URL: `http://<your-service-name>:8081/v1`
 
