@@ -1,4 +1,4 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
-  "startCommand": "bash -lc 'set -e; mkdir -p /data; if [ ! -f /data/Qwen.gguf ]; then echo Downloading model...; curl -L --retry 10 --retry-delay 5 \"$MODEL_URL\" -o /data/Qwen.gguf; fi; cd /opt/llama.cpp && ./build/bin/llama-server -m /data/Qwen.gguf --host 0.0.0.0 --port ${PORT}'"
+  "startCommand": "bash -lc 'set -e; mkdir -p /data; if [ ! -f /data/Qwen.gguf ]; then echo Downloading model...; curl -L --retry 10 --retry-delay 5 \"$MODEL_URL\" -o /data/Qwen.gguf; fi; if [ ! -f /data/mmproj.gguf ]; then echo Downloading vision encoder...; curl -L --retry 10 --retry-delay 5 \"$MMPROJ_URL\" -o /data/mmproj.gguf; fi; cd /opt/llama.cpp && ./build/bin/llama-server -m /data/Qwen.gguf --mmproj /data/mmproj.gguf --host 0.0.0.0 --port ${PORT}'"
 }

@@ -1,6 +1,12 @@
 # Qwen (GGUF) server for Railway via llama.cpp
 
-Это отдельный сервис **Qwen API** (OpenAI-compatible), который бот будет дергать по внутреннему адресу Railway.
+This is a standalone **Qwen API** server (OpenAI-compatible) designed for deployment on Railway using `llama.cpp`. It allows you to run Qwen language models locally (in GGUF format) and access them via a standard API.
+
+## Project Architecture
+- **Engine**: [llama.cpp](https://github.com/ggerganov/llama.cpp) (compiled from source during Docker build).
+- **Model**: Qwen (GGUF format), downloaded automatically on first run.
+- **Deployment**: Optimized for Railway with Volume support for persistent model storage.
+- **API**: OpenAI-compatible (supports `/v1/chat/completions`).
 
 ## 1) Создай новый сервис в Railway
 - New Service → **GitHub Repository** → выбери этот репозиторий.
