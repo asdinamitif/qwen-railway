@@ -19,6 +19,6 @@ echo "=== Starting ASYA (Qwen server) ==="
   -m /data/Qwen.gguf \
   --mmproj /data/mmproj.gguf \
   --host 0.0.0.0 \
-  --port 8081 \
+  --port "${PORT:-8081}" \
   -t 24 \
   -c 4096
