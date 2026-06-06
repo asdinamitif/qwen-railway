@@ -19,23 +19,10 @@ OpenHuman обеспечит АСЕ графический интерфейс, �
 - В настройках OpenHuman выберите **Custom Model** и укажите адрес вашего Railway-сервиса:
   - Base URL: `http://<your-service-name>:8081/v1`
 
-## 3. Настройка Агентов (Ruflo)
-Ruflo позволит АСЕ запускать специализированных помощников.
-- Установите Ruflo в папку вашего проекта:
-  ```bash
-  npx ruflo@latest init wizard
-  ```
-- Зарегистрируйте АСЮ как MCP сервер:
-  ```bash
-  claude mcp add asya -- npx ruflo@latest mcp start
-  ```
-
-## 4. Настройка Безопасности (Shannon)
-Для продвинутого анализа кода и пентестинга:
-- Установите Shannon как навык Ruflo:
-  ```bash
-  npx skills add unicodeveloper/shannon
-  ```
+## 3. Настройка Агентов (Ruflo и Shannon)
+Чтобы АСЯ могла запускать специализированные команды помощников и проводить аудит безопасности:
+- Ознакомьтесь с подробной инструкцией: **[AGENTS_INTEGRATION.md](AGENTS_INTEGRATION.md)**.
+- Там описано, как подключить Ruflo через MCP и добавить навыки Shannon.
 
 ## 5. Голос и Управление (STT/TTS)
 Для общения голосом рекомендуется:
