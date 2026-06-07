@@ -30,4 +30,6 @@ if [ $? -ne 0 ]; then
 else
     echo
     echo "[ГОТОВО] Установка АСИ завершена успешно!"
+    echo "Запуск АСИ..."
+    python3 asya_gui.py
 fi

@@ -3,11 +3,10 @@
 
 ## 🚀 БЫСТРЫЙ ЗАПУСК (One-Click Setup)
 1. **Разверните бэкенд**: Нажмите кнопку **Deploy** в Railway для этого репозитория.
-2. **Установите «Тело»**: **[Скачайте OpenHuman](https://github.com/tinyhumansai/openhuman/releases/latest)** и установите его.
-3. **Запустите Установщик АСИ**:
+2. **Запустите Установщик АСИ**:
    - **Windows**: Запустите `install_asya.bat`
    - **macOS / Linux**: Запустите `install_asya.sh`
-   *(Установщик сам скачает Ruflo, Shannon и настроит браузер)*.
+   *(Установщик сам скачает Ruflo, Shannon, настроит браузер и запустит **Автономное Приложение АСЯ**)*.
 
 
 This is a standalone **Qwen API** server (OpenAI-compatible) designed for deployment on Railway using `llama.cpp`. It allows you to run Qwen language models locally (in GGUF format) and access them via a standard API.

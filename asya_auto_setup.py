@@ -21,8 +21,10 @@ def main():
     print("="*50)
     print("\nЭтот скрипт настроит всё необходимое для работы вашей помощницы.")
 
-    # 1. Проверка Node.js
-    print("\n[1/5] Проверка окружения...")
+    # 1. Проверка Node.js и Python зависимостей
+    print("\n[1/6] Проверка окружения...")
+    run_command("pip install customtkinter requests openai pyttsx3 SpeechRecognition", "Установка Python библиотек для GUI")
+
     if not run_command("node -v", "Версия Node.js"):
         print("ОШИБКА: Node.js не найден. Установите его с nodejs.org")
         sys.exit(1)

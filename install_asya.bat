@@ -34,9 +34,10 @@ python asya_auto_setup.py
 if %errorlevel% neq 0 (
     echo.
     echo [ОШИБКА] Произошла ошибка во время установки.
+    pause
 ) else (
     echo.
     echo [ГОТОВО] Установка АСИ завершена успешно!
+    echo Запуск АСИ...
+    python asya_gui.py
 )
-
-pause
