@@ -23,7 +23,7 @@ def main():
 
     # 1. Проверка Node.js и Python зависимостей
     print("\n[1/6] Проверка окружения...")
-    run_command("pip install customtkinter requests openai pyttsx3 SpeechRecognition", "Установка Python библиотек для GUI")
+    run_command("pip install -r requirements.txt", "Установка Python библиотек из requirements.txt")
 
     if not run_command("node -v", "Версия Node.js"):
         print("ОШИБКА: Node.js не найден. Установите его с nodejs.org")
@@ -73,6 +73,16 @@ def main():
 
     with open("asya_config.json", "w", encoding="utf-8") as f:
         json.dump(config, f, indent=4, ensure_ascii=False)
+
+    # 7. Создание ярлыка
+    try:
+        from pyshortcuts import make_shortcut
+        executable = sys.executable
+        script = os.path.abspath("asya_gui.py")
+        make_shortcut(f'"{executable}" "{script}"', name="АСЯ", terminal=False)
+        print("\n[+] Ярлык 'АСЯ' создан на вашем рабочем столе!")
+    except Exception as e:
+        print(f"\n[!] Не удалось создать ярлык: {e}")
 
     print("\n" + "="*50)
     print("           УСТАНОВКА ЗАВЕРШЕНА!")
