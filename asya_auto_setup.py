@@ -37,13 +37,19 @@ def main():
     run_command("npx skills add unicodeveloper/shannon", "Добавление навыка Shannon")
 
     # 4. Установка agent-browser
-    print("\n[4/5] Настройка браузерной автоматизации...")
+    print("\n[4/6] Настройка браузерной автоматизации...")
     if run_command("npm install -g agent-browser", "Установка Vercel agent-browser"):
         print("Скачивание необходимых компонентов браузера (это может занять время)...")
         run_command("agent-browser install --with-deps", "Загрузка Chromium")
 
-    # 5. Настройка бэкенда
-    print("\n[5/5] Финальная конфигурация...")
+    # 5. Установка Deskreen и Flow Launcher (только для Windows)
+    if os.name == 'nt':
+        print("\n[5/6] Установка дополнительных инструментов (Windows)...")
+        run_command("winget install Flow-Launcher.Flow-Launcher --silent", "Установка Flow Launcher")
+        run_command("winget install pavlobu.deskreen --silent", "Установка Deskreen")
+
+    # 6. Настройка бэкенда
+    print("\n[6/6] Финальная конфигурация...")
     print("\nШаг 1: Разверните бэкенд на Railway (если еще не сделали этого).")
     print("Шаг 2: Скопируйте URL вашего развернутого сервиса.")
 
