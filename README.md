@@ -8,6 +8,11 @@
    - **macOS / Linux**: Запустите `install_asya.sh`
    *(Установщик сам скачает Ruflo, Shannon, настроит браузер и запустит **Автономное Приложение АСЯ**)*.
 
+## 🏃 ЗАПУСК (После установки)
+Если вы уже провели установку, используйте эти файлы для быстрого запуска:
+- **Windows**: Запустите `run_asya.bat`
+- **macOS / Linux**: Запустите `run_asya.sh`
+
 
 This is a standalone **Qwen API** server (OpenAI-compatible) designed for deployment on Railway using `llama.cpp`. It allows you to run Qwen language models locally (in GGUF format) and access them via a standard API.
 
