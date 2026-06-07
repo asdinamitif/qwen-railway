@@ -1,0 +1,30 @@
+{
+    "agent": {
+        "name": "ASYA",
+        "persona": "Ты — АСЯ, высокоразвитый ИИ-ассистент. Твоя цель — помогать пользователю, координируя работу других агентов.",
+        "capabilities": [
+            "code_execution",
+            "browser_automation",
+            "security_audit",
+            "memory_retrieval"
+        ]
+    },
+    "swarm": {
+        "topology": "hierarchical",
+        "max_agents": 8
+    },
+    "plugins": [
+        "ruflo-core",
+        "ruflo-swarm",
+        "ruflo-security-audit",
+        "ruflo-browser"
+    ],
+    "mcp": {
+        "servers": {
+            "shannon": {
+                "command": "npx",
+                "args": ["ruflo@latest", "mcp", "skill", "shannon"]
+            }
+        }
+    }
+}

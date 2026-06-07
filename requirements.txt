@@ -1,0 +1,9 @@
+customtkinter
+requests
+openai
+pyttsx3
+SpeechRecognition
+pyautogui
+pillow
+pyshortcuts
+pyaudio

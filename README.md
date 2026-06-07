@@ -1,6 +1,32 @@
+# ASYA Assistant (Backend & Installer)
 # Qwen (GGUF) server for Railway via llama.cpp
 
-Это отдельный сервис **Qwen API** (OpenAI-compatible), который бот будет дергать по внутреннему адресу Railway.
+## 🚀 БЫСТРЫЙ ЗАПУСК (One-Click Setup)
+1. **Разверните бэкенд**: Нажмите кнопку **Deploy** в Railway для этого репозитория.
+2. **Запустите Установщик АСИ**:
+   - **Windows**: Запустите `install_asya.bat`
+   - **macOS / Linux**: Запустите `install_asya.sh`
+   *(Установщик сам скачает Ruflo, Shannon, настроит браузер, подготовит **UI-TARS** и запустит **Автономное Приложение АСЯ**)*.
+
+## 🏃 ЗАПУСК (После установки)
+Если вы уже провели установку, используйте эти файлы для быстрого запуска:
+- **Windows**: Запустите `run_asya.bat`
+- **macOS / Linux**: Запустите `run_asya.sh`
+
+
+This is a standalone **Qwen API** server (OpenAI-compatible) designed for deployment on Railway using `llama.cpp`. It allows you to run Qwen language models locally (in GGUF format) and access them via a standard API.
+
+## Project Architecture
+- **Engine**: [llama.cpp](https://github.com/ggerganov/llama.cpp) (compiled from source during Docker build).
+- **Model**: Qwen (GGUF format), downloaded automatically on first run.
+- **Deployment**: Optimized for Railway with Volume support for persistent model storage.
+- **API**: OpenAI-compatible (supports `/v1/chat/completions`).
+
+## 🖥️ Возможности Десктоп-версии
+- **UI-TARS**: Управление компьютером (клики, ввод текста) через зрение ИИ.
+- **Ruflo & Shannon**: Запуск роев агентов и аудит безопасности.
+- **Мультимодальность**: АСЯ видит ваш экран и слышит ваш голос.
+- **Инструменты**: Управление Flow Launcher, Deskreen и VPN.
 
 ## 1) Создай новый сервис в Railway
 - New Service → **GitHub Repository** → выбери этот репозиторий.
