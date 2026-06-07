@@ -86,6 +86,9 @@ class AsyaApp(ctk.CTk):
         self.btn_vpn = ctk.CTkButton(self.sidebar, text="VPN", command=lambda: self.show_page("vpn"))
         self.btn_vpn.pack(pady=10, padx=20)
 
+        self.btn_tools = ctk.CTkButton(self.sidebar, text="Инструменты", command=lambda: self.show_page("tools"))
+        self.btn_tools.pack(pady=10, padx=20)
+
         self.btn_settings = ctk.CTkButton(self.sidebar, text="Настройки", command=lambda: self.show_page("settings"))
         self.btn_settings.pack(pady=10, padx=20)
 
@@ -96,6 +99,7 @@ class AsyaApp(ctk.CTk):
         self.pages = {}
         self.create_chat_page()
         self.create_vpn_page()
+        self.create_tools_page()
         self.create_settings_page()
 
         self.show_page("chat")
@@ -145,6 +149,80 @@ class AsyaApp(ctk.CTk):
 
         ctk.CTkButton(page, text="Подключить VPN", fg_color="green", command=self.toggle_vpn).pack(pady=10)
         self.pages["vpn"] = page
+
+    def create_tools_page(self):
+        page = ctk.CTkFrame(self, fg_color="transparent")
+        page.grid_columnconfigure(0, weight=1)
+
+        ctk.CTkLabel(page, text="Инструменты и Агенты", font=ctk.CTkFont(size=20, weight="bold")).pack(pady=20)
+
+        # --- Section: Desktop Tools ---
+        desktop_frame = ctk.CTkFrame(page)
+        desktop_frame.pack(pady=10, padx=20, fill="x")
+        ctk.CTkLabel(desktop_frame, text="Рабочий стол", font=ctk.CTkFont(weight="bold")).pack(pady=5)
+
+        tool_btns = ctk.CTkFrame(desktop_frame, fg_color="transparent")
+        tool_btns.pack(pady=5)
+
+        ctk.CTkButton(tool_btns, text="Запустить Flow Launcher", command=lambda: self.run_tool_cmd("start Flow.Launcher")).pack(side="left", padx=5)
+        ctk.CTkButton(tool_btns, text="Запустить Deskreen", command=lambda: self.run_tool_cmd("deskreen")).pack(side="left", padx=5)
+
+        # --- Section: AI Agents (Ruflo & Shannon) ---
+        agents_frame = ctk.CTkFrame(page)
+        agents_frame.pack(pady=10, padx=20, fill="x")
+        ctk.CTkLabel(agents_frame, text="Управление Агентами (Ruflo / Shannon)", font=ctk.CTkFont(weight="bold")).pack(pady=5)
+
+        self.ruflo_status = ctk.CTkLabel(agents_frame, text="Ruflo: Проверка...")
+        self.ruflo_status.pack(pady=2)
+
+        agent_btns = ctk.CTkFrame(agents_frame, fg_color="transparent")
+        agent_btns.pack(pady=10)
+
+        ctk.CTkButton(agent_btns, text="Инициализировать Ruflo", command=self.init_ruflo).pack(side="left", padx=5)
+        ctk.CTkButton(agent_btns, text="Запустить Swarm", command=self.run_swarm).pack(side="left", padx=5)
+        ctk.CTkButton(agent_btns, text="Аудит Shannon", fg_color="darkred", command=self.run_shannon).pack(side="left", padx=5)
+
+        # --- Section: UI-TARS Control ---
+        tars_frame = ctk.CTkFrame(page)
+        tars_frame.pack(pady=10, padx=20, fill="x")
+        ctk.CTkLabel(tars_frame, text="Контроль UI-TARS (Управление ПК)", font=ctk.CTkFont(weight="bold")).pack(pady=5)
+
+        self.tars_switch = ctk.CTkSwitch(tars_frame, text="Разрешить прямое управление (PyAutoGUI)")
+        self.tars_switch.select()
+        self.tars_switch.pack(pady=5)
+
+        self.pages["tools"] = page
+        threading.Thread(target=self.check_agents_status, daemon=True).start()
+
+    def run_tool_cmd(self, cmd):
+        try:
+            subprocess.Popen(cmd, shell=True)
+        except Exception as e:
+            print(f"Ошибка запуска инструмента: {e}")
+
+    def check_agents_status(self):
+        # Простая проверка наличия ruflo в системе
+        try:
+            res = subprocess.run("ruflo --version", shell=True, capture_output=True, text=True)
+            if res.returncode == 0:
+                self.after(0, lambda: self.ruflo_status.configure(text=f"Ruflo: Активен ({res.stdout.strip()})", text_color="green"))
+            else:
+                self.after(0, lambda: self.ruflo_status.configure(text="Ruflo: Не установлен", text_color="red"))
+        except:
+            self.after(0, lambda: self.ruflo_status.configure(text="Ruflo: Ошибка проверки", text_color="red"))
+
+    def init_ruflo(self):
+        self.add_message("Система", "Инициализация Ruflo...", "bot")
+        threading.Thread(target=lambda: subprocess.run("npx ruflo@latest init --non-interactive", shell=True), daemon=True).start()
+
+    def run_swarm(self):
+        self.add_message("Система", "Запуск автономного роя агентов...", "bot")
+        # Здесь можно добавить ввод цели для роя
+        threading.Thread(target=lambda: subprocess.run("npx ruflo@latest swarm start", shell=True), daemon=True).start()
+
+    def run_shannon(self):
+        self.add_message("Система", "Запуск Shannon (Аудит безопасности)...", "bot")
+        threading.Thread(target=lambda: subprocess.run("npx skills run shannon", shell=True), daemon=True).start()
 
     def create_settings_page(self):
         page = ctk.CTkFrame(self, fg_color="transparent")
@@ -277,6 +355,7 @@ class AsyaApp(ctk.CTk):
             if resp.status_code == 200:
                 answer = resp.json()['choices'][0]['message']['content']
                 self.after(0, lambda: self.add_message("АСЯ", answer, "bot"))
+                self.after(0, lambda: self.process_commands(answer))
                 self.say(answer)
             else:
                 self.after(0, lambda: self.add_message("АСЯ", f"Ошибка: {resp.text}", "bot"))
@@ -308,6 +387,51 @@ class AsyaApp(ctk.CTk):
 
     def toggle_voice_state(self):
         self.voice_enabled = self.voice_switch.get()
+
+    def process_commands(self, text):
+        # Поиск команд в формате [[CMD: команда]]
+        import re
+        commands = re.findall(r'\[\[CMD:\s*(.+?)\]\]', text)
+        for cmd in commands:
+            self.run_tool_cmd(cmd)
+
+        # Поиск команд UI-TARS [[TARS: действие]]
+        tars_commands = re.findall(r'\[\[TARS:\s*(.+?)\]\]', text)
+        for tcmd in tars_commands:
+            self.run_tars_action(tcmd)
+
+    def run_tars_action(self, action):
+        if not self.tars_switch.get():
+            self.add_message("TARS", "Действие заблокировано (переключатель выключен)", "bot")
+            return
+
+        self.add_message("TARS", f"Выполняю: {action}", "bot")
+        try:
+            # Маппинг действий на pyautogui
+            if action.startswith("click"):
+                coords = re.findall(r'\d+', action)
+                if len(coords) >= 2:
+                    pyautogui.click(int(coords[0]), int(coords[1]))
+            elif action.startswith("type"):
+                text_to_type = re.search(r'["\'](.+?)["\']', action)
+                if text_to_type:
+                    pyautogui.write(text_to_type.group(1), interval=0.1)
+            elif action.startswith("press"):
+                key = re.search(r'["\'](.+?)["\']', action)
+                if key:
+                    pyautogui.press(key.group(1))
+            elif action.startswith("scroll"):
+                amount = re.findall(r'-?\d+', action)
+                if amount:
+                    pyautogui.scroll(int(amount[0]))
+            elif action.startswith("move"):
+                coords = re.findall(r'\d+', action)
+                if len(coords) >= 2:
+                    pyautogui.moveTo(int(coords[0]), int(coords[1]))
+            else:
+                self.add_message("TARS", f"Неподдерживаемое действие: {action}", "bot")
+        except Exception as e:
+            self.add_message("TARS", f"Ошибка: {str(e)}", "bot")
 
     def save_settings(self):
         self.backend_url = self.url_setting.get()

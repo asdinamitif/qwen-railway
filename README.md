@@ -6,7 +6,7 @@
 2. **Запустите Установщик АСИ**:
    - **Windows**: Запустите `install_asya.bat`
    - **macOS / Linux**: Запустите `install_asya.sh`
-   *(Установщик сам скачает Ruflo, Shannon, настроит браузер и запустит **Автономное Приложение АСЯ**)*.
+   *(Установщик сам скачает Ruflo, Shannon, настроит браузер, подготовит **UI-TARS** и запустит **Автономное Приложение АСЯ**)*.
 
 ## 🏃 ЗАПУСК (После установки)
 Если вы уже провели установку, используйте эти файлы для быстрого запуска:
@@ -21,6 +21,12 @@ This is a standalone **Qwen API** server (OpenAI-compatible) designed for deploy
 - **Model**: Qwen (GGUF format), downloaded automatically on first run.
 - **Deployment**: Optimized for Railway with Volume support for persistent model storage.
 - **API**: OpenAI-compatible (supports `/v1/chat/completions`).
+
+## 🖥️ Возможности Десктоп-версии
+- **UI-TARS**: Управление компьютером (клики, ввод текста) через зрение ИИ.
+- **Ruflo & Shannon**: Запуск роев агентов и аудит безопасности.
+- **Мультимодальность**: АСЯ видит ваш экран и слышит ваш голос.
+- **Инструменты**: Управление Flow Launcher, Deskreen и VPN.
 
 ## 1) Создай новый сервис в Railway
 - New Service → **GitHub Repository** → выбери этот репозиторий.

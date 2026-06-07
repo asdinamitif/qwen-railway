@@ -49,6 +49,7 @@ def main():
         print("\n[5/6] Установка дополнительных инструментов (Windows)...")
         run_command("winget install Flow-Launcher.Flow-Launcher --silent", "Установка Flow Launcher")
         run_command("winget install pavlobu.deskreen --silent", "Установка Deskreen")
+        print("\n[+] UI-TARS готов к работе через PyAutoGUI!")
 
     # 6. Настройка бэкенда
     print("\n[6/6] Финальная конфигурация...")
@@ -75,12 +76,19 @@ def main():
         json.dump(config, f, indent=4, ensure_ascii=False)
 
     # 7. Создание ярлыка
+    print("\n[7/7] Создание ярлыка...")
     try:
-        from pyshortcuts import make_shortcut
-        executable = sys.executable
-        script = os.path.abspath("asya_gui.py")
-        make_shortcut(f'"{executable}" "{script}"', name="АСЯ", terminal=False)
-        print("\n[+] Ярлык 'АСЯ' создан на вашем рабочем столе!")
+        # Пытаемся импортировать внутри функции, чтобы избежать ошибки при первой установке
+        import importlib
+        try:
+            importlib.import_module("pyshortcuts")
+            from pyshortcuts import make_shortcut
+            executable = sys.executable
+            script = os.path.abspath("asya_gui.py")
+            make_shortcut(f'"{executable}" "{script}"', name="АСЯ", terminal=False)
+            print("\n[+] Ярлык 'АСЯ' создан на вашем рабочем столе!")
+        except ImportError:
+            print("\n[!] Модуль pyshortcuts не найден в текущем процессе. Пожалуйста, запустите этот скрипт еще раз или используйте run_asya.bat")
     except Exception as e:
         print(f"\n[!] Не удалось создать ярлык: {e}")
 
